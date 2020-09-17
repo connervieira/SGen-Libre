@@ -90,9 +90,9 @@ class Main(Gtk.ApplicationWindow):
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
         row.add(hbox)
 
-        self.lowercase = Gtk.CheckButton(label="Lowercase Letters")
-        self.uppercase = Gtk.CheckButton(label="Uppercase Letters")
-        self.numbers = Gtk.CheckButton(label="Numbers")
+        self.lowercase = Gtk.CheckButton(label="Lowercase Letters", active=True)
+        self.uppercase = Gtk.CheckButton(label="Uppercase Letters", active=True)
+        self.numbers = Gtk.CheckButton(label="Numbers", active=True)
         self.special = Gtk.CheckButton(label="Special Characters")
         
         hbox.pack_start(self.lowercase, True, True, 0)
