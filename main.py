@@ -81,15 +81,19 @@ class MyWindow(Gtk.ApplicationWindow):
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
         row.add(hbox)
-
+    
+        self.scroller = Gtk.ScrolledWindow ()
         self.output = Gtk.TextView(editable=False)
 
-        hbox.pack_end(self.output, True, True, 0)
+        self.scroller.add (self.output)
+        hbox.pack_start (self.scroller, fill = True, expand = True, padding = 0)
         listbox.add(row)
 
-
     def submit(self, submit_button):
-        self.output.get_buffer().set_text("Yay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\nYay\n")
+        text = ""
+        for i in range (100):
+            text += "Test\n"
+        self.output.get_buffer().set_text(text)
 
 
 class MyApplication(Gtk.Application):
