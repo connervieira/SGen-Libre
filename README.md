@@ -1,5 +1,5 @@
 # SGen Desktop Linux
-SGen Desktop is a toolset for generating, analyzing, and manipulating random strings of information on MacOS
+SGen Desktop is a toolset for generating, analyzing, and manipulating random strings of information on Linux.
 ![SGen Desktop Logo](https://v0lttech.com/assets/img/sgendesktoplogo.png)
 
 ## Binaries
