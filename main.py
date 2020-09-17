@@ -4,9 +4,47 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Gio
 import sys
+import random
 
 
-class MyWindow(Gtk.ApplicationWindow):
+class Output(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window
+        Gtk.Window.__init__(self, title="SGen Desktop Generate")
+        self.set_default_size(200, 200)
+        self.show()
+
+        self.scroller = Gtk.ScrolledWindow ()
+        self.output = Gtk.TextView(editable=False)
+        self.scroller.add (self.output)
+        self.add (self.scroller)
+
+        self.show_all()
+       
+        global lowercase
+        global uppercase
+        global numbers
+        global special 
+
+        # Determine characters
+        characters = ""
+        if (lowercase == True):
+            characters += "abcdefghijklmnopqrstuvwxyz" 
+        if (uppercase == True):
+            characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+        if (numbers == True):
+            characters += "0123456789" 
+        if (special == True):
+            characters += "~!@#$%^&*()_-=+<>,.;:{}[]?/"
+
+        generated = ""
+        for i in range(amount):
+            generated += "".join(random.choice(characters) for i in range(length)) + "\n"
+
+        self.output.get_buffer().set_text(generated)
+
+        
+class Main(Gtk.ApplicationWindow):
     def __init__(self, app):
         Gtk.Window.__init__(self, title="SGen Desktop", application=app)
         self.set_default_size(250, 50)
@@ -20,7 +58,6 @@ class MyWindow(Gtk.ApplicationWindow):
         outer_box.pack_start(listbox, True, True, 0)
 
 
-
         # Create the UI elements
         # Row 1
         row = Gtk.ListBoxRow()
@@ -28,7 +65,7 @@ class MyWindow(Gtk.ApplicationWindow):
         row.add(hbox)
 
         self.length_label = Gtk.Label(label="Length: ")
-        self.length = Gtk.SpinButton(value=10, climb_rate=1, digits=0)
+        self.length = Gtk.SpinButton(adjustment=Gtk.Adjustment(10, 1, 32768, 1, 0, 0), value=10, climb_rate=1, digits=0)
 
         hbox.pack_start(self.length_label, True, True, 0)
         hbox.pack_start(self.length, True, True, 0)
@@ -41,7 +78,7 @@ class MyWindow(Gtk.ApplicationWindow):
         row.add(hbox)
 
         self.amount_label = Gtk.Label(label="Amount: ")
-        self.amount = Gtk.SpinButton(value=10, climb_rate=1, digits=0)
+        self.amount = Gtk.SpinButton(adjustment=Gtk.Adjustment(8, 1, 32768, 1, 0, 0), value=10, climb_rate=1, digits=0)
 
         hbox.pack_start(self.amount_label, True, True, 0)
         hbox.pack_start(self.amount, True, True, 0)
@@ -57,7 +94,7 @@ class MyWindow(Gtk.ApplicationWindow):
         self.uppercase = Gtk.CheckButton(label="Uppercase Letters")
         self.numbers = Gtk.CheckButton(label="Numbers")
         self.special = Gtk.CheckButton(label="Special Characters")
-
+        
         hbox.pack_start(self.lowercase, True, True, 0)
         hbox.pack_start(self.uppercase, True, True, 0)
         hbox.pack_start(self.numbers, True, True, 0)
@@ -77,24 +114,22 @@ class MyWindow(Gtk.ApplicationWindow):
         listbox.add(row)
 
 
-        # Row 5
-        row = Gtk.ListBoxRow()
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
-        row.add(hbox)
-    
-        self.scroller = Gtk.ScrolledWindow ()
-        self.output = Gtk.TextView(editable=False)
-
-        self.scroller.add (self.output)
-        hbox.pack_start (self.scroller, fill = True, expand = True, padding = 0)
-        listbox.add(row)
-
     def submit(self, submit_button):
-        text = ""
-        for i in range (100):
-            text += "Test\n"
-        self.output.get_buffer().set_text(text)
+        global lowercase
+        global uppercase
+        global numbers
+        global special
+        global length
+        global amount
 
+        length = int(self.length.get_value())
+        amount = int(self.amount.get_value())
+        lowercase = self.lowercase.get_active()
+        uppercase = self.uppercase.get_active()
+        numbers = self.numbers.get_active()
+        special = self.special.get_active()
+
+        output_window = Output()
 
 class MyApplication(Gtk.Application):
 
@@ -102,7 +137,7 @@ class MyApplication(Gtk.Application):
         Gtk.Application.__init__(self)
 
     def do_activate(self):
-        win = MyWindow(self)
+        win = Main(self)
         win.show_all()
 
     def do_startup(self):
