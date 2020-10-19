@@ -10,8 +10,8 @@ import random
 class Output(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window
-        Gtk.Window.__init__(self, title="SGen Desktop Generate")
-        self.set_default_size(200, 200)
+        Gtk.Window.__init__(self, title="SGen Desktop Generation")
+        self.set_default_size(800, 600)
         self.show()
 
         self.scroller = Gtk.ScrolledWindow ()
@@ -44,6 +44,60 @@ class Output(Gtk.ApplicationWindow):
         self.output.get_buffer().set_text(generated)
 
         
+class AnalysisMenu(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window
+        Gtk.Window.__init__(self, title="SGen Desktop Analysis Menu")
+        self.set_default_size(300, 75)
+        self.show()
+
+        listbox = Gtk.ListBox()
+    
+
+        self.add(listbox)
+    
+        def uniquecharactercount(self):
+            unique_character_count_window = UniqueCharacterCount()
+            pass
+
+        def uniquecharacterslist(self):
+            pass
+
+        self.unique_character_count_button = Gtk.Button(label="Unique Character Count")
+        self.unique_character_count_button.connect("clicked", uniquecharactercount)
+        listbox.add(self.unique_character_count_button)
+
+        self.unique_characters_list_button = Gtk.Button(label="Unique Characters List")
+        self.unique_characters_list_button.set_sensitive(False) # Disables button
+        self.unique_characters_list_button.connect("clicked", uniquecharacterslist)
+        listbox.add(self.unique_characters_list_button)
+        self.show_all()
+
+class UniqueCharacterCount(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window 
+        Gtk.Window.__init__(self, title="SGen Desktop Unique Character Count")
+        self.set_default_size(400, 75)
+        self.show()
+
+        def analyze(self):
+            pass
+
+        listbox = Gtk.ListBox()
+        
+        self.input = Gtk.Entry(editable=True)
+        listbox.add (self.input)
+
+        self.analyze_button = Gtk.Button(label="Analyze")
+        self.analyze_button.connect("clicked", analyze)
+        listbox.add(self.analyze_button)
+
+        self.add (listbox)
+
+        self.show_all()
+
+
+ 
 class Main(Gtk.ApplicationWindow):
     def __init__(self, app):
         Gtk.Window.__init__(self, title="SGen Desktop", application=app)
@@ -107,12 +161,27 @@ class Main(Gtk.ApplicationWindow):
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
         row.add(hbox)
 
-        self.submit_button = Gtk.Button(label="Submit")
+        self.submit_button = Gtk.Button(label="Generate")
         self.submit_button.connect("clicked", self.submit)
-
+        
         hbox.pack_start(self.submit_button, True, True, 0)
         listbox.add(row)
 
+
+        # Row 5
+        row = Gtk.ListBoxRow()
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
+        row.add(hbox)
+
+        self.analyze_button = Gtk.Button(label="Analysis Menu")
+        self.analyze_button.connect("clicked", self.analyze)
+        
+        hbox.pack_start(self.analyze_button, True, True, 0)
+        listbox.add(row)
+
+
+    def analyze(self, submit_button):
+        analysis_menu_window = AnalysisMenu()
 
     def submit(self, submit_button):
         global lowercase
