@@ -10,7 +10,7 @@ import random
 class Output(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window
-        Gtk.Window.__init__(self, title="SGen Desktop Generation")
+        Gtk.Window.__init__(self, title="SGen Libre - Generation Output")
         self.set_default_size(800, 600)
         self.show()
 
@@ -47,7 +47,7 @@ class Output(Gtk.ApplicationWindow):
 class AnalysisMenu(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window
-        Gtk.Window.__init__(self, title="SGen Desktop Analysis Menu")
+        Gtk.Window.__init__(self, title="SGen Libre - Analysis Menu")
         self.set_default_size(300, 75)
         self.show()
 
@@ -63,6 +63,9 @@ class AnalysisMenu(Gtk.ApplicationWindow):
         def uniquecharacterslist(self):
             pass
 
+        def characterfrequency(self):
+            pass
+
         self.unique_character_count_button = Gtk.Button(label="Unique Character Count")
         self.unique_character_count_button.connect("clicked", uniquecharactercount)
         listbox.add(self.unique_character_count_button)
@@ -71,12 +74,18 @@ class AnalysisMenu(Gtk.ApplicationWindow):
         self.unique_characters_list_button.set_sensitive(False) # Disables button
         self.unique_characters_list_button.connect("clicked", uniquecharacterslist)
         listbox.add(self.unique_characters_list_button)
+
+        self.character_frequency_counter_button = Gtk.Button(label="Character Frequency Counter")
+        self.character_frequency_counter_button.set_sensitive(False) # Disables button
+        self.character_frequency_counter_button.connect("clicked", characterfrequency)
+        listbox.add(self.character_frequency_counter_button)
+
         self.show_all()
 
 class UniqueCharacterCount(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window 
-        Gtk.Window.__init__(self, title="SGen Desktop Unique Character Count")
+        Gtk.Window.__init__(self, title="SGen Libre - Unique Character Count")
         self.set_default_size(400, 75)
         self.show()
 
@@ -100,7 +109,7 @@ class UniqueCharacterCount(Gtk.ApplicationWindow):
  
 class Main(Gtk.ApplicationWindow):
     def __init__(self, app):
-        Gtk.Window.__init__(self, title="SGen Desktop", application=app)
+        Gtk.Window.__init__(self, title="SGen Libre", application=app)
         self.set_default_size(250, 50)
 
         # Prepare the layout
