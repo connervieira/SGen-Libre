@@ -16,6 +16,7 @@ class GenerationOutput(Gtk.ApplicationWindow):
 
         self.scroller = Gtk.ScrolledWindow ()
         self.output = Gtk.TextView(editable=False)
+        self.output.set_justification(Gtk.Justification.CENTER)
         self.scroller.add (self.output)
         self.add (self.scroller)
 
