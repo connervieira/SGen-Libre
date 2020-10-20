@@ -7,10 +7,10 @@ import sys
 import random
 
 
-class Output(Gtk.ApplicationWindow):
+class GenerationOutput(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window
-        Gtk.Window.__init__(self, title="SGen Libre - Generation Output")
+        Gtk.Window.__init__(self, title="Generation Output")
         self.set_default_size(800, 600)
         self.show()
 
@@ -47,17 +47,15 @@ class Output(Gtk.ApplicationWindow):
 class AnalysisMenu(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window
-        Gtk.Window.__init__(self, title="SGen Libre - Analysis Menu")
+        Gtk.Window.__init__(self, title="Analysis Menu")
         self.set_default_size(300, 75)
         self.show()
 
         listbox = Gtk.ListBox()
-    
 
         self.add(listbox)
     
         def uniquecharactercount(self):
-            unique_character_count_window = UniqueCharacterCount()
             pass
 
         def uniquecharacterslist(self):
@@ -66,7 +64,14 @@ class AnalysisMenu(Gtk.ApplicationWindow):
         def characterfrequency(self):
             pass
 
+        def lengthcalculator(self):
+            string_length_window = StringLength()
+
+        def probabilitycalculator(self):
+            pass
+
         self.unique_character_count_button = Gtk.Button(label="Unique Character Count")
+        self.unique_character_count_button.set_sensitive(False) # Disables button
         self.unique_character_count_button.connect("clicked", uniquecharactercount)
         listbox.add(self.unique_character_count_button)
 
@@ -80,22 +85,37 @@ class AnalysisMenu(Gtk.ApplicationWindow):
         self.character_frequency_counter_button.connect("clicked", characterfrequency)
         listbox.add(self.character_frequency_counter_button)
 
+        self.length_calculator_button = Gtk.Button(label="String Length Calculator")
+        self.length_calculator_button.set_sensitive(True) # Enables button
+        self.length_calculator_button.connect("clicked", lengthcalculator)
+        listbox.add(self.length_calculator_button)
+
+        self.probability_calculator_button = Gtk.Button(label="Probability Calculator")
+        self.probability_calculator_button.set_sensitive(False) # Disables button
+        self.probability_calculator_button.connect("clicked", probabilitycalculator)
+        listbox.add(self.probability_calculator_button)
+
         self.show_all()
 
-class UniqueCharacterCount(Gtk.ApplicationWindow):
+class StringLength(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window 
-        Gtk.Window.__init__(self, title="SGen Libre - Unique Character Count")
+        Gtk.Window.__init__(self, title="String Length Calculator")
         self.set_default_size(400, 75)
         self.show()
+        
+
+        input_field = Gtk.Entry(editable=True)
 
         def analyze(self):
-            pass
+            global output_content
+            string_to_analyze = input_field.get_text()
+            output_content = len(string_to_analyze)
+            analysis_window = AnalysisOutput()
 
         listbox = Gtk.ListBox()
         
-        self.input = Gtk.Entry(editable=True)
-        listbox.add (self.input)
+        listbox.add (input_field)
 
         self.analyze_button = Gtk.Button(label="Analyze")
         self.analyze_button.connect("clicked", analyze)
@@ -105,6 +125,25 @@ class UniqueCharacterCount(Gtk.ApplicationWindow):
 
         self.show_all()
 
+
+class AnalysisOutput(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window 
+        Gtk.Window.__init__(self, title="Analysis Output")
+        self.set_default_size(400, 75)
+        self.show()
+
+        global output_content
+
+        self.scroller = Gtk.ScrolledWindow ()
+        self.output = Gtk.TextView(editable=False)
+        self.output.set_justification(Gtk.Justification.CENTER)
+        self.scroller.add (self.output)
+        self.add (self.scroller)
+
+        self.output.get_buffer().set_text(str(output_content))
+
+        self.show_all()
 
  
 class Main(Gtk.ApplicationWindow):
@@ -207,7 +246,7 @@ class Main(Gtk.ApplicationWindow):
         numbers = self.numbers.get_active()
         special = self.special.get_active()
 
-        output_window = Output()
+        output_window = GenerationOutput()
 
 class MyApplication(Gtk.Application):
 
