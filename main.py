@@ -1,7 +1,7 @@
 # SGen Libre
 # V0LT
 # Licensed under the GPLv3
-# Version 0.0.3
+# Version 0.0.4
 
 import gi
 gi.require_version('Gtk', '3.0')
