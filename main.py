@@ -68,7 +68,7 @@ class AnalysisMenu(Gtk.ApplicationWindow):
             pass
 
         def characterfrequency(self):
-            pass
+            character_frequency_window = CharacterFrequency()
 
         def lengthcalculator(self):
             string_length_window = StringLength()
@@ -87,7 +87,7 @@ class AnalysisMenu(Gtk.ApplicationWindow):
         listbox.add(self.unique_characters_list_button)
 
         self.character_frequency_counter_button = Gtk.Button(label="Character Frequency Counter")
-        self.character_frequency_counter_button.set_sensitive(False) # Disables button
+        self.character_frequency_counter_button.set_sensitive(True) # Enables button
         self.character_frequency_counter_button.connect("clicked", characterfrequency)
         listbox.add(self.character_frequency_counter_button)
 
@@ -110,7 +110,6 @@ class StringLength(Gtk.ApplicationWindow):
         self.set_default_size(400, 75)
         self.show()
         
-
         input_field = Gtk.Entry(editable=True)
 
         def analyze(self):
@@ -132,11 +131,50 @@ class StringLength(Gtk.ApplicationWindow):
         self.show_all()
 
 
+class CharacterFrequency(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window 
+        Gtk.Window.__init__(self, title="Character Frequency Analysis")
+        self.set_default_size(400, 75)
+        self.show()
+        
+        input_field = Gtk.Entry(editable=True)
+
+        def analyze(self):
+            global output_content
+            string_to_analyze = input_field.get_text()
+
+            #calculate number of times the characters appear in a string
+            characters={}
+            for i in string_to_analyze:
+                characters[i]=characters.get(i,0)+1
+
+            print("\nFrequency of characters:")
+            #print the characters in descending order from most frequent to least frequent
+            seperator_character = " - "
+            output_content = ""
+            for j in sorted(characters, key=characters.get, reverse=True):
+                output_content = output_content + j + seperator_character + str(characters[j]) + "\n"
+            analysis_window = AnalysisOutput()
+
+        listbox = Gtk.ListBox()
+        
+        listbox.add (input_field)
+
+        self.analyze_button = Gtk.Button(label="Analyze")
+        self.analyze_button.connect("clicked", analyze)
+        listbox.add(self.analyze_button)
+
+        self.add (listbox)
+
+        self.show_all()
+
+
 class AnalysisOutput(Gtk.ApplicationWindow):
     def __init__(self):
         # Create window 
         Gtk.Window.__init__(self, title="Analysis Output")
-        self.set_default_size(400, 75)
+        self.set_default_size(350, 150)
         self.show()
 
         global output_content
