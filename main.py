@@ -1,7 +1,7 @@
 # SGen Libre
 # V0LT
 # Licensed under the GPLv3
-# Version 0.0.6
+# Version 1.0
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -74,30 +74,26 @@ class AnalysisMenu(Gtk.ApplicationWindow):
             string_length_window = StringLength()
 
         def probabilitycalculator(self):
+            probability_calculator_window = ProbabilityCalculator()
             pass
 
         self.unique_character_count_button = Gtk.Button(label="Unique Character Count")
-        self.unique_character_count_button.set_sensitive(True) # Enables button
         self.unique_character_count_button.connect("clicked", uniquecharactercount)
         listbox.add(self.unique_character_count_button)
 
         self.unique_characters_list_button = Gtk.Button(label="Unique Characters List")
-        self.unique_characters_list_button.set_sensitive(True) # Enables button
         self.unique_characters_list_button.connect("clicked", uniquecharacterslist)
         listbox.add(self.unique_characters_list_button)
 
         self.character_frequency_counter_button = Gtk.Button(label="Character Frequency Counter")
-        self.character_frequency_counter_button.set_sensitive(True) # Enables button
         self.character_frequency_counter_button.connect("clicked", characterfrequency)
         listbox.add(self.character_frequency_counter_button)
 
         self.length_calculator_button = Gtk.Button(label="String Length Calculator")
-        self.length_calculator_button.set_sensitive(True) # Enables button
         self.length_calculator_button.connect("clicked", lengthcalculator)
         listbox.add(self.length_calculator_button)
 
         self.probability_calculator_button = Gtk.Button(label="Probability Calculator")
-        self.probability_calculator_button.set_sensitive(False) # Disables button
         self.probability_calculator_button.connect("clicked", probabilitycalculator)
         listbox.add(self.probability_calculator_button)
 
@@ -115,7 +111,7 @@ class StringLength(Gtk.ApplicationWindow):
         def analyze(self):
             global output_content
             string_to_analyze = input_field.get_text()
-            output_content = len(string_to_analyze)
+            output_content = str(len(string_to_analyze))
             analysis_window = AnalysisOutput()
 
         listbox = Gtk.ListBox()
@@ -153,7 +149,7 @@ class UniqueCharacterList(Gtk.ApplicationWindow):
             seperator_character = " - " # This is the character that will be used to seperate the character from its count in the output.
             output_content = "" # Reset the output content to empty. Without this, the following loop would add on to the last analysis run.
             for j in sorted(characters, key=characters.get, reverse=True):
-                output_content = output_content + j + "\n"
+                output_content = output_content + j
             analysis_window = AnalysisOutput()
 
         listbox = Gtk.ListBox()
@@ -206,6 +202,39 @@ class CharacterFrequency(Gtk.ApplicationWindow):
 
         self.show_all()
 
+class ProbabilityCalculator(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window 
+        Gtk.Window.__init__(self, title="Probability Calculator")
+        self.set_default_size(400, 75)
+        self.show()
+        
+        input_field = Gtk.Entry(editable=True)
+
+        def analyze(self):
+            global output_content
+            string_to_analyze = input_field.get_text()
+
+            # Count number of times each character appears in the string.
+            characters={}
+            for i in string_to_analyze:
+                characters[i]=characters.get(i,0)+1
+
+            output_content = str(len(characters) ** len(string_to_analyze))
+            
+            analysis_window = AnalysisOutput()
+
+        listbox = Gtk.ListBox()
+        
+        listbox.add (input_field)
+
+        self.analyze_button = Gtk.Button(label="Analyze")
+        self.analyze_button.connect("clicked", analyze)
+        listbox.add(self.analyze_button)
+
+        self.add (listbox)
+
+        self.show_all()
 
 class UniqueCharacterCount(Gtk.ApplicationWindow):
     def __init__(self):

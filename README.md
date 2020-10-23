@@ -21,10 +21,27 @@ Despite the high level of customizability, SGen Libre is still very simple and e
 ### Free
 SGen Libre is free, both in terms of freedom and in cost. In other words, in addition to being able to download and use SGen Libre however you want, you can also study, modify, and distribute the source code under the GPLv3 license.
 
+### Compact
+The entire source code for SGen Libre is just a few kilobytes. This means you'll be able to put it anywhere, including portable devices with extremely small on-board storage.
+
+### Powerful
+SGen Libre includes various different tools for analyzing existing strings of information. These tools are programmed with the same efficency and simplicity as the rest of SGen Libre, and serve various useful functions.
+
 ## Tools
-1. Random String Generator
-2. Unique Character Frequency Analysis
-3. Unique Character Listing
-4. Unique Character Counter
-5. Probability Calculator (Planned)
-6. String Length Calculator
+### Random String Generator
+Generate random strings of information.
+
+### Unique Character Frequency Analysis
+Count how many times each unique character appears in a given string.
+
+### Unique Character Listing
+List all of the unique characters in a string without repeats.
+
+### Unique Character Counter
+Count how many unique characters are present in a string.
+
+### Probability Calculator
+Calculate how many other strings can be made using the same length and number of unique characters as the given string.
+
+### String Length Calculator
+Count how many characters are in a given string.
