@@ -1,7 +1,7 @@
 # SGen Libre
 # V0LT
 # Licensed under the GPLv3
-# Version 0.0.4
+# Version 0.0.5
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -62,7 +62,7 @@ class AnalysisMenu(Gtk.ApplicationWindow):
         self.add(listbox)
     
         def uniquecharactercount(self):
-            pass
+            unique_character_count_window = UniqueCharacterCount()
 
         def uniquecharacterslist(self):
             pass
@@ -77,7 +77,7 @@ class AnalysisMenu(Gtk.ApplicationWindow):
             pass
 
         self.unique_character_count_button = Gtk.Button(label="Unique Character Count")
-        self.unique_character_count_button.set_sensitive(False) # Disables button
+        self.unique_character_count_button.set_sensitive(True) # Enables button
         self.unique_character_count_button.connect("clicked", uniquecharactercount)
         listbox.add(self.unique_character_count_button)
 
@@ -144,17 +144,50 @@ class CharacterFrequency(Gtk.ApplicationWindow):
             global output_content
             string_to_analyze = input_field.get_text()
 
-            #calculate number of times the characters appear in a string
+            # Count number of times each character appears in the string.
+            characters={} # Create an empty dictionary to fill with all of the characters in the string, as well as how many times they appear.
+            for i in string_to_analyze:
+                characters[i]=characters.get(i,0)+1
+
+            # Display the characters in descending order from most frequent to least frequent.
+            seperator_character = " - " # This is the character that will be used to seperate the character from its count in the output.
+            output_content = "" # Reset the output content to empty. Without this, the following loop would add on to the last analysis run.
+            for j in sorted(characters, key=characters.get, reverse=True):
+                output_content = output_content + j + seperator_character + str(characters[j]) + "\n"
+            analysis_window = AnalysisOutput()
+
+        listbox = Gtk.ListBox()
+        
+        listbox.add (input_field)
+
+        self.analyze_button = Gtk.Button(label="Analyze")
+        self.analyze_button.connect("clicked", analyze)
+        listbox.add(self.analyze_button)
+
+        self.add (listbox)
+
+        self.show_all()
+
+
+class UniqueCharacterCount(Gtk.ApplicationWindow):
+    def __init__(self):
+        # Create window 
+        Gtk.Window.__init__(self, title="Unique Character Count")
+        self.set_default_size(400, 75)
+        self.show()
+        
+        input_field = Gtk.Entry(editable=True)
+
+        def analyze(self):
+            global output_content
+            string_to_analyze = input_field.get_text()
+
+            # Count number of times each character appears in the string.
             characters={}
             for i in string_to_analyze:
                 characters[i]=characters.get(i,0)+1
 
-            print("\nFrequency of characters:")
-            #print the characters in descending order from most frequent to least frequent
-            seperator_character = " - "
-            output_content = ""
-            for j in sorted(characters, key=characters.get, reverse=True):
-                output_content = output_content + j + seperator_character + str(characters[j]) + "\n"
+            output_content = len(characters)
             analysis_window = AnalysisOutput()
 
         listbox = Gtk.ListBox()
